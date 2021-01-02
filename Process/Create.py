@@ -1,4 +1,4 @@
-from Process.utility import KeyAuthenticity, ValueAuthenticity, TTLAuthenticity, FileAuthenticity, UpdateData
+from DB_2021.Process.utility import KeyAuthenticity, ValueAuthenticity, TTLAuthenticity, FileAuthenticity, UpdateData
 import time
 import json
 
@@ -24,7 +24,6 @@ class CreateOperation():
     def checkKeyValueTTL(self):
         # key check
         key_instance = KeyAuthenticity(self.key)
-
         # key_size_flag = key_instance.checkSize()
         # key_type_flag = key_instance.checkKeyType()
         key_existence_flag = key_instance.checkKeyExistence()
