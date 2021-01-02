@@ -24,15 +24,16 @@ class CreateOperation():
     def checkKeyValueTTL(self):
         # key check
         key_instance = KeyAuthenticity(self.key)
-        # key_size_flag = key_instance.checkSize()
-        # key_type_flag = key_instance.checkKeyType()
+
+        key_size_flag = key_instance.checkSize()
+        key_type_flag = key_instance.checkKeyType()
         key_existence_flag = key_instance.checkKeyExistence()
-        # if not key_size_flag:
-        #     print("Enter a valid sized key")
-        #     return
-        # if not key_type_flag:
-        #     print("Enter a valid type of key. Please follow proper format")
-        #     return
+        if not key_size_flag:
+            print("Enter a valid sized key")
+            return
+        if not key_type_flag:
+            print("Enter a valid type of key. Please follow proper format")
+            return
         if not key_existence_flag:
             print(" key doesnot exists in DB")
             return
@@ -45,13 +46,13 @@ class CreateOperation():
         # Value check
         value_instance = ValueAuthenticity(self.value)
         value_type = value_instance.checkValueType()
-        # value_size_flag = value_instance.checkValueSize()
+        value_size_flag = value_instance.checkValueSize()
         if not value_type:
             print("check value format")
             return
-        # if not value_size_flag:
-        #     print("Value size exceeds")
-        #     return
+        if not value_size_flag:
+            print("Value size exceeds")
+            return
         self.writeData()
         print("Data entered")
 

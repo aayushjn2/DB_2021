@@ -4,9 +4,6 @@ from DB_2021.Process.Read import ReadOperation
 from DB_2021.Process.Delete import DeleteOperation
 import os
 import sys
-from collections import deque
-
-
 class DB():
     def __init__(self, path=None, fileName=None):
         self.path = path

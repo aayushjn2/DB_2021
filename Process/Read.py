@@ -15,12 +15,12 @@ class ReadOperation(threading.Thread):
     def run(self):
         # key check
         key_instance = KeyAuthenticity(self.key)
-        # key_size_flag = key_instance.checkSize()
+        key_size_flag = key_instance.checkSize()
         key_type_flag = key_instance.checkKeyType()
         key_existence_flag = key_instance.checkKeyExistence()
-        # if not key_size_flag:
-        #     print("Enter a valid sized key")
-        #     return
+        if not key_size_flag:
+            print("Enter a valid sized key")
+            return
         if not key_type_flag:
             print("Enter a valid type of key. Please follow proper format")
             return
