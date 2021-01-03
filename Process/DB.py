@@ -1,9 +1,11 @@
 import json
-from DB_2021.Process.Create import CreateOperation
-from DB_2021.Process.Read import ReadOperation
-from DB_2021.Process.Delete import DeleteOperation
+from Process.Create import CreateOperation
+from Process.Read import ReadOperation
+from Process.Delete import DeleteOperation
 import os
 import sys
+
+
 class DB():
     def __init__(self, path=None, fileName=None):
         self.path = path
@@ -12,32 +14,62 @@ class DB():
     def openDB(self, path, fileName):
         self.path = path
         self.fileName = fileName
-        print("DB opened")
+        pathExistence = self.verifyPathFile()
+        if not pathExistence:
+            with open(os.path.join(self.path, self.fileName), 'w') as fp:
+                pass
         return
 
     def changeDB(self, path, fileName):
-        print("Change DB")
         self.path = path
         self.fileName = fileName
+        pathExistence = self.verifyPathFile()
+        if not pathExistence:
+            with open(os.path.join(self.path, self.fileName), 'w') as fp:
+                pass
+        print("DB change to "+self.fileName)
+        return
+
+    def deleteDB(self, path, fileName):
+        self.path = path
+        self.fileName = fileName
+        pathExistence = self.verifyPathFile()
+        if pathExistence:
+            os.remove(self.path + '/' + self.fileName)
+            print("DB change to "+self.fileName)
+        else:
+            print("Specified DB doestnot exists")
         return
 
     def exitDB(self):
-        print("exit DB")
         self.path = None
         self.fileName = None
         return
 
     def insertData(self, key, value, ttl=sys.float_info.max):
         print("insert Data")
-        CreateOperation(key, value, ttl, self.path, self.fileName)
+        if self.path == None or self.fileName == None:
+            print("Please select DB first")
+        else:
+            CreateOperation(key, value, ttl, self.path, self.fileName)
         return
 
     def readData(self, key):
         print("read data")
-        ReadOperation(key, self.path, self.fileName)
+        if self.path == None or self.fileName == None:
+            print("Please select DB first")
+        else:
+            ReadOperation(key, self.path, self.fileName)
         return
 
     def deleteData(self, key):
         print("Delete Data")
-        DeleteOperation(key, self.path, self.fileName)
+        if self.path == None or self.fileName == None:
+            print("Please select DB first")
+        else:
+            DeleteOperation(key, self.path, self.fileName)
         return
+
+    def verifyPathFile(self):
+        check = os.path.isfile(self.path + '/' + self.fileName)
+        return check

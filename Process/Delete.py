@@ -1,4 +1,4 @@
-from DB_2021.Process.utility import KeyAuthenticity, TTLAuthenticity, UpdateData
+from Process.utility import KeyAuthenticity, TTLAuthenticity, UpdateData
 import json
 
 
