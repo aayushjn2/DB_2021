@@ -51,7 +51,9 @@ class DB():
         if self.path == None or self.fileName == None:
             print("Please select DB first")
         else:
-            CreateOperation(key, value, ttl, self.path, self.fileName)
+            instance = CreateOperation(
+                key, value, ttl, self.path, self.fileName)
+            instance.writeData()
         return
 
     def readData(self, key):
@@ -63,11 +65,11 @@ class DB():
         return
 
     def deleteData(self, key):
-        print("Delete Data")
         if self.path == None or self.fileName == None:
             print("Please select DB first")
         else:
-            DeleteOperation(key, self.path, self.fileName)
+            instance = DeleteOperation(key, self.path, self.fileName)
+            instance.delete()
         return
 
     def verifyPathFile(self):

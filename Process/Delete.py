@@ -10,7 +10,7 @@ class DeleteOperation():
 
     def delete(self):
         # key check
-        key_instance = KeyAuthenticity(self.key)
+        key_instance = KeyAuthenticity(self.key, self.path, self.fileName)
         key_size_flag = key_instance.checkSize()
         key_type_flag = key_instance.checkKeyType()
         key_existence_flag = key_instance.checkKeyExistence()
@@ -36,4 +36,5 @@ class DeleteOperation():
         with open(self.path + '/' + self.fileName) as f:
             data = json.load(f)
         del data[key]
-        UpdateData(self.path, self.fileName, data)
+        updateData = UpdateData(self.path, self.fileName, data)
+        updateData.update()

@@ -20,20 +20,36 @@ class UpdateData():
 
 
 class FileAuthenticity():
-    def __init__(self, path, fileName):
+    def __init__(self, path, fileName, key, ttl, value):
         self.path = path
         self.fileName = fileName
+        self.key = key
+        self.ttl = ttl
+        self.value = value
 
-    def fileSize(self):
-        size = os.path.getsize(self.path+'/'+self.fileName)  # in bytes
-        return size
+    def getfileSize(self):
+        fileSize = os.path.getsize(self.path+'/'+self.fileName)  # in bytes
+        return fileSize
+
+    def checkFileSize(self):
+        keySize = KeyAuthenticity(
+            self.key, self.path, self.fileName).getKeySize()
+        ValueSize = ValueAuthenticity(self.value).getValueSize()
+        fileSize = self.getfileSize()
+
+        if(keySize + ValueSize + fileSize <= 8*1024*1024*1024):
+            return True
+        else:
+            return False
 
 # check key format and existence in DB
 
 
 class KeyAuthenticity():
-    def __init__(self, key):
+    def __init__(self, key, path, fileName):
         self.key = key
+        self.fileName = fileName
+        self.path = path
 
     def checkKeyType(self):
         if type(key) == str and key.isalpha():
@@ -41,7 +57,7 @@ class KeyAuthenticity():
         else:
             return False
 
-    def checkSize(self):
+    def checkKeySize(self):
         keySize = self.getKeySize()  # considering key as str datatype
         if keySize == 32:
             return True
@@ -49,11 +65,11 @@ class KeyAuthenticity():
             return False
 
     def getKeySize(self):
-        return len(self.key)
+        return sys.getsizeof(str(self.key)) - sys.getsizeof('')
 
     def checkKeyExistence(self):
         data = None
-        with open('path_to_file/DataStore.json') as f:
+        with open(self.path + '/' + self.fileName) as f:
             data = json.load(f)
         if (key in data):
             return True
@@ -76,15 +92,14 @@ class ValueAuthenticity():
 
     # check Value size
     def checkValueSize(self):
-        valueSize = self.getObjectSize()
-        if(valueSize <= "16KB"):
+        valueSize = self.getValueSize()
+        if(valueSize <= 8*16*1024):
             return True
         else:
             return False
 
-    def getObejectSize(self):
-        size = None
-        return size
+    def getValueSize(self):
+        return sys.getsizeof(str(self.value)) - sys.getsizeof('')
 
 # check TTL property for a key
 
